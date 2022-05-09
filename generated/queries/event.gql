@@ -1,0 +1,50 @@
+query allEvents($where: event_bool_exp) {
+  event(where: $where) {
+    date
+    describe
+    id
+    location
+    reporter
+    title
+    attendingTime
+    image
+    createdAt
+  }
+}
+
+mutation postEvent($object: event_insert_input!) {
+  insert_event(objects: [$object]) {
+    affected_rows
+  }
+}
+
+query eventDetail($id: String!) {
+  event(where: { id: { _eq: $id } }) {
+    id
+    title
+    describe
+    location
+    date
+    reporter
+    image
+    createdAt
+  }
+}
+
+mutation deleteEvent($id: String!) {
+  delete_event(where: { id: { _eq: $id } }) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+
+mutation updateEvent($id: String, $object: event_set_input!) {
+  update_event(where: { id: { _eq: $id } }, _set: $object) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
